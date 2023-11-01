@@ -1,0 +1,6 @@
+bvenv/
+__pycache__/
+*.sqlite3
+.env
+migrations/
+.coverage
