@@ -5,3 +5,4 @@ __pycache__/
 migrations/
 .coverage
 docker-compose.yaml
+postgres_biblioverse/
