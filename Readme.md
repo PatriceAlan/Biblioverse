@@ -18,7 +18,7 @@ Access your eBook collection from anywhere, on any device. Whether you're on you
 
 ### 4. Intuitive Reading Experience
 
-Bibioverse takes your reading experience to the next level, with Django's support. Enjoy a clean and distraction-free reading environment with customizable fonts, backgrounds, and reading preferences.
+Bibioverse takes your reading experience to the next level, with Django's support. Enjoy a clean and distraction-free reading environment with customizable fonts, backgrounds, and reading preferences. 
 
 ### 5. Sync Your Progress
 
