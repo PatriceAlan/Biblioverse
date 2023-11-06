@@ -23,7 +23,7 @@ Bibioverse takes your reading experience to the next level, with Django's suppor
 ### 5. Sync Your Progress
 
 Never lose track of your reading progress again. Bibioverse, powered by Django, syncs your progress across all your devices, allowing you to pick up right where you left off.
-
+ 
 ### 6. Discover New Reads
 
 Explore Bibioverse's built-in recommendation engine that suggests new eBooks based on your reading history, helping you discover hidden gems and exciting new authors.
