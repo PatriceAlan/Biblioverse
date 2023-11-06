@@ -6,3 +6,4 @@ migrations/
 .coverage
 docker-compose.yaml
 mysql_biblioverse/
+Biblioverse-Entites-Relations
