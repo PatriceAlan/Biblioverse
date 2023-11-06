@@ -27,7 +27,7 @@ Never lose track of your reading progress again. Bibioverse, powered by Django, 
 ### 6. Discover New Reads
  
 Explore Bibioverse's built-in recommendation engine that suggests new eBooks based on your reading history, helping you discover hidden gems and exciting new authors.
-
+ 
 ## Getting Started
 
 To start using Bibioverse, follow these simple steps:
