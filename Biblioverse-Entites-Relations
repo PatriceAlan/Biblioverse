@@ -1,0 +1,43 @@
+**Tables:**
+
+1. **User**
+   - id (primary key)
+   - username
+   - password
+   - email address
+
+2. **EBook**
+   - id (primary key)
+   - title
+   - author
+   - publication date
+   - genre
+   - summary
+   - cover (cover image link)
+   - ebook file (eBook file path on the server)
+   - added by admin (boolean to indicate if the eBook was added by an administrator)
+   - user_id (foreign key to the user who added the eBook, can be null if added by admin)
+
+3. **Review**
+   - id (primary key)
+   - review text
+   - rating
+   - review date
+   - user_id (foreign key to the user who left the review)
+   - ebook_id (foreign key to the associated eBook)
+
+4. **Bookmark**
+   - id (primary key)
+   - page
+   - bookmark date
+   - user_id (foreign key to the user who created the bookmark)
+   - ebook_id (foreign key to the associated eBook)
+
+**Relationships:**
+
+- A user can add multiple eBooks (One-to-Many relationship between User and eBook, via "user_id").
+- An eBook can be added by a single user (Many-to-One relationship between eBook and User, via "user_id").
+- An eBook can have multiple reviews (One-to-Many relationship between eBook and Review, via "ebook_id").
+- A review is left by a single user (Many-to-One relationship between Review and User, via "user_id").
+- A bookmark can be created by a user (Many-to-One relationship between Bookmark and User, via "user_id").
+- A bookmark is associated with a specific eBook (Many-to-One relationship between Bookmark and eBook, via "ebook_id").
