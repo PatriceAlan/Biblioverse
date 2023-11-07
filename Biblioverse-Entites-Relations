@@ -39,5 +39,5 @@
 - An eBook can be added by a single user (Many-to-One relationship between eBook and User, via "user_id").
 - An eBook can have multiple reviews (One-to-Many relationship between eBook and Review, via "ebook_id").
 - A review is left by a single user (Many-to-One relationship between Review and User, via "user_id").
-- A bookmark can be created by a user (Many-to-One relationship between Bookmark and User, via "user_id").
+- A bookmark can be created by a user (Many-to-One relationship between Bookmark and User, via "user_id"). 
 - A bookmark is associated with a specific eBook (Many-to-One relationship between Bookmark and eBook, via "ebook_id").
