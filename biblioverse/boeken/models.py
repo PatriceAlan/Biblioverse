@@ -24,3 +24,12 @@ class Review(models.Model):
 
     def __str__(self):
         return f"Review by {self.user.username} for {self.ebook.title}"
+
+class Bookmark(models.Model):
+    page = models.PositiveBigIntegerField()
+    bookmark_date = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey('User', on_delete=models.CASCADE)
+    ebook = models.ForeignKey(Book, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"Bookmark by {self.user.username} for {self.ebook.title} at page {self.page}"
