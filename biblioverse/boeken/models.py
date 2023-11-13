@@ -34,4 +34,11 @@ class Bookmark(models.Model):
     def __str__(self):
         return f"Bookmark by {self.user.username} for {self.ebook.title} at page {self.page}"
     
+class Category(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    description = models.TextField(blank=True)
+    photo = models.ImageField(upload_to='category_photos/', blank=True, null=True)
+
+    def __str__(self):
+        return self.name
     

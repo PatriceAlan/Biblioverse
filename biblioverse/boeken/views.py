@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
 from django.contrib import messages
 from .forms import SignUpForm
+from .models import Category
 
 def home(request):
     if request.method == 'POST':
@@ -35,3 +37,12 @@ def register_user(request):
         form = SignUpForm()
     
     return render(request, 'register.html', {'form': form})
+
+def book_categories(request):
+    if request.user.is_authenticated:
+        categories = Category.objects.all()
+        return render(request, 'categories.html', {'categories': categories})
+    else:
+        messages.error(request, "You must be logged in to view that page...")
+        return redirect('home')
+
