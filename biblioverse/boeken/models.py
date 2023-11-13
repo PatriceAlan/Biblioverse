@@ -1,13 +1,21 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+class Category(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    description = models.TextField(blank=True)
+    photo = models.ImageField(upload_to='category_photos/', blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+
 class Book(models.Model):
     title = models.CharField(max_length=100)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     publication_date = models.DateField()
-    genre = models.CharField(max_length=100)
+    genre = models.ForeignKey(Category, on_delete=models.CASCADE)
     summary = models.TextField()
-    cover = models.URLField()
+    cover = models.ImageField(upload_to='book_covers/', blank=True, null=True)
     ebook_file = models.FileField(upload_to='ebooks/')
     added_by_admin = models.BooleanField(default=False)
     added_by_user = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True)
@@ -33,12 +41,3 @@ class Bookmark(models.Model):
 
     def __str__(self):
         return f"Bookmark by {self.user.username} for {self.ebook.title} at page {self.page}"
-    
-class Category(models.Model):
-    name = models.CharField(max_length=100, unique=True)
-    description = models.TextField(blank=True)
-    photo = models.ImageField(upload_to='category_photos/', blank=True, null=True)
-
-    def __str__(self):
-        return self.name
-    
