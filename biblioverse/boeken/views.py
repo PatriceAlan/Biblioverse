@@ -46,3 +46,17 @@ def book_categories(request):
         messages.error(request, "You must be logged in to view that page...")
         return redirect('home')
 
+def book_authors(request):
+    if request.user.is_authenticated:
+
+        author_users = User.objects.filter(book__isnull=False)
+
+        author_users = author_users.distinct()
+
+        context = { 'author_users': author_users}
+
+        return render(request, 'authors.html', context)
+    
+    else:
+        messages.error(request, "You must be logged in to view that page...")
+        return redirect('home')
