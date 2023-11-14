@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib import messages
 from .forms import SignUpForm
-from .models import Category, Author
+from .models import Category, Author, Book
 
 def home(request):
     if request.method == 'POST':
@@ -63,6 +63,14 @@ def book_authors(request):
         context = {'author_dict': sorted_author_dict}
         return render(request, 'authors.html', context)
     
+    else:
+        messages.error(request, "You must be logged in to view that page...")
+        return redirect('home')
+
+def book_list(request):
+    if request.user.is_authenticated:
+        books = Book.objects.all()
+        return render(request, 'books.html', {'books': books})
     else:
         messages.error(request, "You must be logged in to view that page...")
         return redirect('home')
