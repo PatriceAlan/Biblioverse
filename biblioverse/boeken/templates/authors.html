@@ -1,5 +1,14 @@
 {% extends 'base.html' %}
 {% block content %}
 
+{% for letter, authors in author_dict.items %}
+    <h2>{{ letter }}</h2>
+    <ul>
+        {% for author in authors %}
+            <li>{{ author.first_name }} {{ author.last_name }}</li>
+        {% endfor %}
+    </ul>
+{% endfor %}
+
 
 {% endblock %}
