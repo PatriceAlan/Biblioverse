@@ -49,12 +49,14 @@ def book_categories(request):
 def book_authors(request):
     if request.user.is_authenticated:
 
-        author_users = User.objects.filter(book__isnull=False)
+        first_letters = User.objects.filter(book__isnull=False).values_list('first_name__istartswith', flat=True).distinct()
 
-        author_users = author_users.distinct()
+        author_dict = {}
+        for letter in first_letters:
+            authors = User.objects.filter(book__isnull=False, first_name__istartswith=letter).distinct()
+            author_dict[letter] = authors
 
-        context = { 'author_users': author_users}
-
+        context = { 'author_dict': author_dict}
         return render(request, 'authors.html', context)
     
     else:
