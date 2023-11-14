@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib import messages
 from .forms import SignUpForm
-from .models import Category
+from .models import Category, Book
 
 def home(request):
     if request.method == 'POST':
@@ -48,15 +48,19 @@ def book_categories(request):
 
 def book_authors(request):
     if request.user.is_authenticated:
+        # Get a list of all authors with books
+        authors_with_books = User.objects.filter(book__isnull=False).distinct()
 
-        first_letters = User.objects.filter(book__isnull=False).values_list('first_name__istartswith', flat=True).distinct()
-
+        # Create a dictionary to store authors grouped by the first letter
         author_dict = {}
-        for letter in first_letters:
-            authors = User.objects.filter(book__isnull=False, first_name__istartswith=letter).distinct()
-            author_dict[letter] = authors
+        for author in authors_with_books:
+            first_letter = author.first_name[0].upper()
+            author_dict.setdefault(first_letter, []).append(author)
 
-        context = { 'author_dict': author_dict}
+        # Sort the dictionary by keys
+        sorted_author_dict = dict(sorted(author_dict.items()))
+
+        context = {'author_dict': sorted_author_dict}
         return render(request, 'authors.html', context)
     
     else:
