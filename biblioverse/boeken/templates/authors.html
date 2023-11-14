@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 {% block content %}
 
-{% for letter in author_dict %}
+{% for letter, authors in author_dict.items %}
     <div class="author-group">
         <h2>{{ letter }}</h2>
         <ul>
-            {% for author in author_dict.letter %}
+            {% for author in authors %}
                 <li>{{ author.first_name }} {{ author.last_name }}</li>
             {% endfor %}
         </ul>

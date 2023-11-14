@@ -48,7 +48,7 @@ def book_categories(request):
 
 def book_authors(request):
     if request.user.is_authenticated:
-        # Get a list of all authors with books
+        # Get a list of all authors with associated books
         authors_with_books = Author.objects.filter(book__isnull=False).distinct()
 
         # Create a dictionary to store authors grouped by the first letter
