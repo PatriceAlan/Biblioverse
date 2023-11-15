@@ -3,23 +3,22 @@
 
 <h2>{{ author.first_name }} {{ author.last_name }}'s Books</h2>
 
-<ul>
-    {% for book in author_books %}
+{% for book in author_books %}
     <div class="row">
-            <div class="col-md-4 mb-4">
-                <div class="card" style="width: 18rem;">
-                    <img src="{{ book.cover.url }}" class="card-img-top">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ book.title }}</h5>
-                        <p class="card-text">{{ book.summary }}</p>
-                    </div>
+        <div class="col-md-4 mb-4">
+            <div class="card" style="width: 18rem;">
+                <img src="{{ book.cover.url }}" class="card-img-top">
+                <div class="card-body">
+                    <h5 class="card-title">{{ book.title }}</h5>
+                    <p class="card-text">{{ book.summary }}</p>
                 </div>
             </div>
-            {% if forloop.counter|divisibleby:3 and not forloop.last %}
-                </div><div class="row">
-            {% endif %}
-        {% endfor %}
+        </div>
+        {% if forloop.counter|divisibleby:3 and not forloop.last %}
+            </div><div class="row">
+        {% endif %}
+        
     </div>
-</ul>
+{% endfor %}
 
 {% endblock %}
