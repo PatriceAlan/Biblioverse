@@ -3,8 +3,8 @@
 
 <h2>{{ category.name }}</h2>
 
-{% for book in category_books %}
-    <div class="row">
+<div class="row">
+    {% for book in category_books %}
         <div class="col-md-4 mb-4">
             <div class="card" style="width: 18rem;">
                 <img src="{{ book.cover.url }}" class="card-img-top">
@@ -17,8 +17,9 @@
         {% if forloop.counter|divisibleby:3 and not forloop.last %}
             </div><div class="row">
         {% endif %}
-    </div>
-{% endfor %}
+    {% endfor %}
+</div>
+
 <a href="{% url 'categories' %}" class="btn btn-secondary">Back</a>
 
 {% endblock %}
