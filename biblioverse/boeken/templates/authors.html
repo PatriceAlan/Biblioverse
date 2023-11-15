@@ -6,7 +6,7 @@
         <h2>{{ letter }}</h2>
         <ul>
             {% for author in authors %}
-                <li>{{ author.first_name }} {{ author.last_name }}</li>
+                <a href="{% url 'author_books' author.id %}"><li>{{ author.first_name }} {{ author.last_name }}</li></a>
             {% endfor %}
         </ul>
     </div>

@@ -2,6 +2,7 @@ bvenv/
 __pycache__/
 *.sqlite3
 .env
+.idea
 migrations/
 .coverage
 docker-compose.yaml

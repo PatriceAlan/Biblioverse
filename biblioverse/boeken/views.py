@@ -74,3 +74,18 @@ def book_list(request):
     else:
         messages.error(request, "You must be logged in to view that page...")
         return redirect('home')
+
+def author_books(request, author_id):
+    if request.user.is_authenticated:
+        try:
+            author = Author.objects.get(id=author_id)
+        except Author.DoesNotExist:
+            messages.error(request, "Author not found.")
+            return redirect('home')
+
+        author_books = Book.objects.filter(author=author)
+
+        return render(request, 'author_books.html', {'author_books': author_books, 'author': author})
+    else:
+        messages.error(request, "You must be logged in to view that page...")
+        return redirect('home')
