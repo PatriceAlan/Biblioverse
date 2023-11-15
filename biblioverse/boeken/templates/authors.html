@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 {% block content %}
 
+<h1 class="card-header pb-2 mb-2 border-bottom"><i class="bi bi-people-fill"></i> Authors</h1>
+<br/>
+
 {% for letter, authors in author_dict.items %}
     <div class="author-group">
         <h2>{{ letter }}</h2>
