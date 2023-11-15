@@ -89,3 +89,19 @@ def author_books(request, author_id):
     else:
         messages.error(request, "You must be logged in to view that page...")
         return redirect('home')
+
+
+def category_books(request, category_id):
+    if request.user.is_authenticated:
+        try:
+            category = Category.objects.get(id=category_id)
+        except Category.DoesNotExist:
+            messages.error(request, "Category not found.")
+            return redirect('home')
+
+        category_books = Book.objects.filter(genre=category)
+
+        return render(request, 'category_books.html', {'category_books': category_books, 'category': category})
+    else:
+        messages.error(request, "You must be logged in to view that page...")
+        return redirect('home')

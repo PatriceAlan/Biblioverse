@@ -4,13 +4,18 @@
 <div class="row">
     {% for category in categories %}
         <div class="col-md-4 mb-4">
-            <div class="card" style="width: 18rem;">
-                <img src="{{ category.photo.url }}" class="card-img-top" alt="{{ category.name }} Image">
-                <div class="card-body">
-                    <h5 class="card-title">{{ category.name }}</h5>
-                    <p class="card-text">{{ category.description }}</p>
+            
+                <div class="card" style="width: 18rem;">
+                    <a href="{% url 'category_books' category.id %}">
+                        <img src="{{ category.photo.url }}" class="card-img-top" alt="{{ category.name }} Image">
+                    </a>
+                    <a href="{% url 'category_books' category.id %}"></a>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ category.name }}</h5>
+                        <p class="card-text">{{ category.description }}</p>
+                    </div>
                 </div>
-            </div>
+            
         </div>
         {% if forloop.counter|divisibleby:3 and not forloop.last %}
             </div><div class="row">
