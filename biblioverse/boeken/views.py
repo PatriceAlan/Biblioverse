@@ -66,7 +66,7 @@ def book_authors(request):
 
         # Sort the dictionary by keys
         sorted_author_dict = dict(sorted(author_dict.items()))
-        
+
 
         context = {'author_dict': sorted_author_dict}
         return render(request, 'authors.html', context)
