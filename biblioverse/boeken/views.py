@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib import messages
 from .forms import SignUpForm
+from django.db.models import Q
 from .models import Category, Author, Book
 
 def home(request):
@@ -40,8 +41,14 @@ def register_user(request):
 
 def book_categories(request):
     if request.user.is_authenticated:
+
         categories = Category.objects.all()
-        return render(request, 'categories.html', {'categories': categories})
+        search_query = request.GET.get('search_query')
+
+        if search_query:
+            categories = categories.filter(Q(title__icontains=search_query))
+
+        return render(request, 'categories.html', {'categories': categories, 'search_query': search_query})
     else:
         messages.error(request, "You must be logged in to view that page...")
         return redirect('home')
@@ -70,7 +77,12 @@ def book_authors(request):
 def book_list(request):
     if request.user.is_authenticated:
         books = Book.objects.all()
-        return render(request, 'books.html', {'books': books})
+        search_query = request.GET.get('search_query')
+
+        if search_query:
+            books = books.filter(Q(title__icontains=search_query))
+
+        return render(request, 'books.html', {'books': books, 'search_query': search_query})
     else:
         messages.error(request, "You must be logged in to view that page...")
         return redirect('home')
@@ -84,8 +96,13 @@ def author_books(request, author_id):
             return redirect('home')
 
         author_books = Book.objects.filter(author=author)
+        search_query = request.GET.get('search_query')
 
-        return render(request, 'author_books.html', {'author_books': author_books, 'author': author})
+        if search_query:
+            author_books = author_books.filter(Q(title__icontains=search_query))
+
+
+        return render(request, 'author_books.html', {'author_books': author_books, 'author': author, 'search_query': search_query})
     else:
         messages.error(request, "You must be logged in to view that page...")
         return redirect('home')
@@ -100,8 +117,13 @@ def category_books(request, category_id):
             return redirect('home')
 
         category_books = Book.objects.filter(genre=category)
+        search_query = request.GET.get('search_query')
 
-        return render(request, 'category_books.html', {'category_books': category_books, 'category': category})
+        if search_query:
+            category_books = category_books.filter(Q(title__icontains=search_query))
+
+
+        return render(request, 'category_books.html', {'category_books': category_books, 'category': category, 'search_query':search_query})
     else:
         messages.error(request, "You must be logged in to view that page...")
         return redirect('home')
