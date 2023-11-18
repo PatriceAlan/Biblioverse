@@ -86,6 +86,10 @@ def book_list(request):
         books = Book.objects.all()
         search_query = request.GET.get('search_query')
         books = handle_search(books, search_query)
+
+        if search_query:
+            books = books.filter(Q(title__icontains=search_query))
+
         return render(request, 'books.html', {'books': books, 'search_query': search_query})
     else:
         messages.error(request, "You must be logged in to view that page...")
