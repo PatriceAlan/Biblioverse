@@ -40,11 +40,14 @@ def register_user(request):
     return render(request, 'register.html', {'form': form})
 
 
-def handle_search(queryset, search_query):
+def handle_search(queryset_or_list, search_query):
     if search_query:
-        return queryset.filter(Q(title__icontains=search_query))
-    return queryset
-
+        if isinstance(queryset_or_list, Author):  # Check if it's an Author instance
+            return queryset_or_list.objects.filter(Q(first_name__icontains=search_query) | Q(last_name__icontains=search_query))
+        elif isinstance(queryset_or_list, list):
+            # Assume it's a list of authors
+            return [author for author in queryset_or_list if search_query.lower() in author.first_name.lower() or search_query.lower() in author.last_name.lower()]
+    return queryset_or_list
 
 def book_categories(request):
     if request.user.is_authenticated:
@@ -61,22 +64,16 @@ def book_categories(request):
 
 def book_authors(request):
     if request.user.is_authenticated:
-        # Get a list of all authors with associated books
         authors_with_books = Author.objects.filter(book__isnull=False).distinct()
-
-        # Create a dictionary to store authors grouped by the first letter
         author_dict = {}
         for author in authors_with_books:
             first_letter = author.first_name[0].upper()
             author_dict.setdefault(first_letter, []).append(author)
-
-        # Sort the dictionary by keys
         sorted_author_dict = dict(sorted(author_dict.items()))
-
 
         search_query = request.GET.get('search_query')
         sorted_author_dict = {key: handle_search(value, search_query) for key, value in sorted_author_dict.items()}
-        
+
         context = {'author_dict': sorted_author_dict}
         return render(request, 'authors.html', context)
     
