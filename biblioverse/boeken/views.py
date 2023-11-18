@@ -39,14 +39,20 @@ def register_user(request):
     
     return render(request, 'register.html', {'form': form})
 
+
+def handle_search(queryset, search_query):
+    if search_query:
+        return queryset.filter(Q(title__icontains=search_query))
+    return queryset
+
+
 def book_categories(request):
     if request.user.is_authenticated:
-
         categories = Category.objects.all()
         search_query = request.GET.get('search_query')
-
+        
         if search_query:
-            categories = categories.filter(Q(title__icontains=search_query))
+            categories = categories.filter(Q(name__icontains=search_query))
 
         return render(request, 'categories.html', {'categories': categories, 'search_query': search_query})
     else:
@@ -68,6 +74,9 @@ def book_authors(request):
         sorted_author_dict = dict(sorted(author_dict.items()))
 
 
+        search_query = request.GET.get('search_query')
+        sorted_author_dict = {key: handle_search(value, search_query) for key, value in sorted_author_dict.items()}
+        
         context = {'author_dict': sorted_author_dict}
         return render(request, 'authors.html', context)
     
@@ -79,10 +88,7 @@ def book_list(request):
     if request.user.is_authenticated:
         books = Book.objects.all()
         search_query = request.GET.get('search_query')
-
-        if search_query:
-            books = books.filter(Q(title__icontains=search_query))
-
+        books = handle_search(books, search_query)
         return render(request, 'books.html', {'books': books, 'search_query': search_query})
     else:
         messages.error(request, "You must be logged in to view that page...")
@@ -98,10 +104,7 @@ def author_books(request, author_id):
 
         author_books = Book.objects.filter(author=author)
         search_query = request.GET.get('search_query')
-
-        if search_query:
-            author_books = author_books.filter(Q(title__icontains=search_query))
-
+        author_books = handle_search(author_books, search_query)
 
         return render(request, 'author_books.html', {'author_books': author_books, 'author': author, 'search_query': search_query})
     else:
@@ -119,10 +122,7 @@ def category_books(request, category_id):
 
         category_books = Book.objects.filter(genre=category)
         search_query = request.GET.get('search_query')
-
-        if search_query:
-            category_books = category_books.filter(Q(title__icontains=search_query))
-
+        category_books = handle_search(category_books, search_query)
 
         return render(request, 'category_books.html', {'category_books': category_books, 'category': category, 'search_query':search_query})
     else:
