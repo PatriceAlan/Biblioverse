@@ -80,6 +80,7 @@ def book_authors(request):
     else:
         messages.error(request, "You must be logged in to view that page...")
         return redirect('home')
+    
 
 def book_list(request):
     if request.user.is_authenticated:
