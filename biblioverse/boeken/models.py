@@ -48,3 +48,6 @@ class Bookmark(models.Model):
 
     def __str__(self):
         return f"Bookmark by {self.user.username} for {self.ebook.title} at page {self.page}"
+
+class Ebook(models.Model):
+    file = models.FileField(upload_to='ebooks/')

@@ -2,9 +2,10 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib import messages
-from .forms import SignUpForm
+from .forms import EbookForm, SignUpForm
 from django.db.models import Q
 from .models import Category, Author, Book
+from ebooklib import epub
 
 def home(request):
     if request.method == 'POST':
@@ -131,3 +132,39 @@ def category_books(request, category_id):
     else:
         messages.error(request, "You must be logged in to view that page...")
         return redirect('home')
+    
+
+def upload_ebook(request):
+    if request.method == 'POST':
+        form = EbookForm(request.POST, request.FILES)
+        if form.is_valid():
+            ebook = form.save(commit=False)
+
+            # Extract metadata from the uploaded ebook file
+            ebook_title, ebook_cover = extract_metadata(ebook.file.path)
+
+            # Update the model fields
+            ebook.title = ebook_title
+            ebook.cover = ebook_cover
+
+            # Save the model instance with extracted metadata
+            ebook.save()
+
+            return redirect('show_ebook', pk=ebook.pk)
+    else:
+        form = EbookForm()
+    return render(request, 'upload_ebook.html', {'form': form})
+
+def extract_metadata(file_path):
+    # Use ebooklib to extract metadata
+    book = epub.read_epub(file_path)
+
+    # Extract title
+    title = book.get_metadata('DC', 'title')[0][0] if book.get_metadata('DC', 'title') else "Unknown Title"
+
+    # Extract cover image URL
+    cover = None
+    if book.cover:
+        cover = 'data:' + book.cover[0] + ';base64,' + book.cover[1]
+
+    return title, cover
