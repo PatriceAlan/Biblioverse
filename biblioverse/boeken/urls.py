@@ -1,5 +1,5 @@
 from . import views
-from django.urls import path, include
+from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -10,6 +10,7 @@ urlpatterns = [
     path('authors/', views.book_authors, name='authors'),
     path('author/<int:author_id>/books/', views.author_books, name='author_books'),
     path('category/<int:category_id>/books/', views.category_books, name='category_books'),
+    path('upload/', views.upload_ebook, name='upload_ebook'),
 
     path('logout/', views.logout_user, name='logout'),
     path('register/', views.register_user, name='register'),

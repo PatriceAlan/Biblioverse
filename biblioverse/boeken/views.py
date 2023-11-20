@@ -134,6 +134,20 @@ def category_books(request, category_id):
         return redirect('home')
     
 
+def extract_metadata(file_path):
+    # Use ebooklib to extract metadata
+    book = epub.read_epub(file_path)
+
+    # Extract title
+    title = book.get_metadata('DC', 'title')[0][0] if book.get_metadata('DC', 'title') else "Unknown Title"
+
+    # Extract cover image URL
+    cover = None
+    if book.cover:
+        cover = 'data:' + book.cover[0] + ';base64,' + book.cover[1]
+
+    return title, cover
+
 def upload_ebook(request):
     if request.method == 'POST':
         form = EbookForm(request.POST, request.FILES)
@@ -150,21 +164,7 @@ def upload_ebook(request):
             # Save the model instance with extracted metadata
             ebook.save()
 
-            return redirect('show_ebook', pk=ebook.pk)
+            return redirect('home')
     else:
         form = EbookForm()
     return render(request, 'upload_ebook.html', {'form': form})
-
-def extract_metadata(file_path):
-    # Use ebooklib to extract metadata
-    book = epub.read_epub(file_path)
-
-    # Extract title
-    title = book.get_metadata('DC', 'title')[0][0] if book.get_metadata('DC', 'title') else "Unknown Title"
-
-    # Extract cover image URL
-    cover = None
-    if book.cover:
-        cover = 'data:' + book.cover[0] + ';base64,' + book.cover[1]
-
-    return title, cover

@@ -1,8 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
-
-from biblioverse.boeken.models import Ebook
+from .models import Ebook
 
 class SignUpForm(UserCreationForm):
     email = forms.EmailField(required=True, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Email Address'}))
