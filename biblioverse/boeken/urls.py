@@ -11,7 +11,7 @@ urlpatterns = [
     path('author/<int:author_id>/books/', views.author_books, name='author_books'),
     path('category/<int:category_id>/books/', views.category_books, name='category_books'),
 
-    path('logout/', views.logout_user, name='logout'),
+    path('logout/', views.logout_user, name='logout'), 
     path('register/', views.register_user, name='register'),
     
 ]
